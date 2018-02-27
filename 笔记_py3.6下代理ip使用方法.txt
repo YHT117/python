@@ -1,0 +1,20 @@
+# -*- coding: utf-8 -*-
+import re
+import _thread
+from time import sleep, ctime
+from urllib.request import urlopen
+from urllib.request import Request
+from urllib.request import ProxyHandler
+from urllib.request import build_opener
+from lxml import etree
+
+url = "http://sou.zhaopin.com/jobs/searchresult.ashx?jl=%%E5%%8C%%97%%E4%%BA%%AC&kw=java&sm=0&p=%i"%(1)
+#设置代理ip
+proxy = {'http':'1.60.114.151:6673'}
+proxy_support = ProxyHandler(proxy)
+opener = build_opener(proxy_support)
+#设置访问http协议头,模拟浏览器
+opener.addheaders = [('User-agent', 'Mozilla/5.0 (Windows; U; Windows NT 6.1; en-US; rv:1.9.1.6) Gecko/20091201 Firefox/3.5.6')]
+r = opener.open(url)
+html = r.read().decode('utf-8')
+print(html)

@@ -1,0 +1,85 @@
+1.安装
+	pip install django
+2.创建项目
+	d:/www/django文件夹下右键->打开dos窗口
+	输入:
+	python C:\ProgramData\Miniconda3\Scripts\django-admin.py startproject novelnet
+	回车
+	d:/www/django下创建一novelnet项目(文件夹)
+3.创建模板文件夹
+	novelnet同级目录下创建manager文件夹,
+	创建manager/templates文件夹
+4.settings.py中添加
+	INSTALLED_APPS = [
+    'django.contrib.admin',
+    'django.contrib.auth',
+    'django.contrib.contenttypes',
+    'django.contrib.sessions',
+    'django.contrib.messages',
+    'django.contrib.staticfiles',
+    'manager'
+]
+5.创建路由
+	novelnet文件夹下创建views.py
+
+from django.shortcuts import render
+from django.http import HttpResponse
+def index(request):
+    return render(request,'shouye.html');
+
+6.manager/templates文件夹下创建shouye.html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>小说首页</title>
+    <style type="text/css">
+		body,dl,dd,p,h1,h2,h3,h4,h5,h6{margin:0;}
+		ol,ul{margin:0;padding:0;list-style:none;}
+		a{text-decoration:none;}
+		img{border:none;}
+	 </style>
+    <link rel="stylesheet" href="css/header.css">
+</head>
+<body>
+    <div class="header">
+        <div class="head_center">
+            <div class="headL">
+               <ul>
+                   <li><a href="#">起点中文网</a></li>
+                   <li><a href="#">起点女生网</a></li>
+                   <li><a href="#">创世中文网</a></li>
+                   <li><a href="#">云梯书院</a></li>
+                   <li><a href="#">繁体版</a></li>
+               </ul>
+            </div>
+            <div class="headR">
+                <ul>
+                    <li><a href="#">登陆</a></li>
+                    <li><a href="#">注册</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
+
+6.配置路由,urls.py中
+from django.conf.urls import url
+from django.contrib import admin
+from novelnet import views
+
+urlpatterns = [
+    url(r'^$',views.index),
+    url(r'^admin/', admin.site.urls),
+]
+
+7.运行
+python manage.py runserver 0.0.0.0:8000
+
+8.访问
+浏览器：http://localhost:8000/
+
+9.manager下创建static文件夹
+	创建js和css文件夹，拷贝相关文件
+

@@ -1,0 +1,37 @@
+1.运行：D:\tools\python\python-2.7.10.amd64=>安装到c:\python
+2.环境变量：path:c:\Python27
+3.cmd:python回车
+
+//sublime安装python插件
+Package Control：管理插件的插件，前面已安装
+SublimeCodeIntel: 代码提示插件，可根据是python、java等自动代码提示
+	Preferences->Package Control->install Package->输入sublimecodeintel
+
+4.在Sublime Text中，preference->Package Control;
+输入install,找到 Install Package 选项并回车;
+或者
+control+shift+P=>打开Package Control=>输入install=>点install Package 等几秒
+安装：
+a.sublimeREPL	Tools->SublimeREPL->Python
+b.Anaconda      python自动补全工具
+c.Djaneiro	提供对Django支持
+d.SideBarEnhancements 侧边栏支持功能,可以Open width:
+
+5.配置ctr+b运行(与dos窗口在中文输出上有所不同)
+点tools->Build System->New Build System...
+改为：
+{
+	"cmd": ["C:/Python27/python.exe","-u","$file"],
+	"file_regex": "^[ ]*File \"(...*?)\", line ([0-9]*)",
+	"selector": "source.python",
+	"encoding": "utf8",
+}
+"encoding":"ascii"
+
+保存为：
+python27.sublime-build
+路径：C:\Users\Administrator\AppData\Roaming\Sublime Text 3\Packages\User
+
+再点tools->Build System->python27
+
+写个py文件,点ctrl+b执行

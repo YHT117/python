@@ -1,0 +1,7 @@
+1.必须用新版redis
+2.代码:
+#pip install redis	#先安装
+import redis
+r = redis.Redis(host='192.168.61.212',port=6379,db=0)
+r.set('hello','world')
+print(r.get('hello'))

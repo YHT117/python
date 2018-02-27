@@ -1,0 +1,6 @@
+import os
+output = os.popen('test.bat')
+print(output.read())
+
+#----test.bat------
+python httpServer.py

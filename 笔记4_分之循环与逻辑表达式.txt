@@ -1,0 +1,54 @@
+#分支语句
+x=0
+if x<0:
+	print("aa")
+elif x==0:
+	print("bb")
+else:
+	print("cc")
+
+1：逻辑表达式                              
+   and    逻辑与
+   or     逻辑或
+   not    逻辑非
+
+#循环语句
+while a<10:
+	print('a=%i'%a)
+	a=a+1			#a += 1 a++不对
+
+#for语句
+>>> for char in 'hello':
+	print char
+
+>>> for ii in range(10):	#输出0~9
+	print ii
+
+>>> for ii in range(1,11):	#输出1到10
+	print ii
+
+>>> for ii in range(1,11,2):	#range（[start ,] stop [, step]）
+	print(ii)
+
+#break和continue
+for ii in range(1,11):
+	print(ii)
+	if ii==5:
+		break
+
+#循环+else:循环完成，进入else
+number = int(raw_input('输入一个自然数'))
+factor = number/2
+while factor>1:
+	if number%factor ==0:
+		print number,'具有因子',factor,'不是素数'
+		break
+
+	factor = factor-1
+
+else:
+	print number,'是素数'
+
+#pass空操作
+for x in range(10):
+    pass		#什么也不做，有例外时处理

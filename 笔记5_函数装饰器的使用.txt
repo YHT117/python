@@ -1,0 +1,42 @@
+# -*- coding: utf-8 -*-
+'''
+使用语法糖@来装饰函数，相当于“myfunc = deco(myfunc)” 
+但发现deco函数只在第一次被调用，且myfunc函数在第一次后又被多调用了一次
+'''
+def deco(func):  
+    print("before myfunc() called.") 
+    
+    func()
+    print("after myfunc() called.")
+    
+    return func
+bool=0
+@deco
+def myfunc(): 
+	global bool
+	bool=bool+1
+	if not bool==2:
+		print("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa")
+		bool=1
+
+myfunc()
+myfunc()
+
+
+#用缓存避免重复运算
+from functools import wraps 
+def memo(f): 
+	cache = {} 
+	@wraps(f) #f函数不会被下面的闭包函数所影响
+	def  wrap(arg): 
+		if arg not in cache: cache[arg] = f(arg) 
+		return cache 
+	return wrap
+
+@memo 
+def fib(i):  
+   return i*2
+
+print fib(3)
+print fib(5)
+print fib(3)

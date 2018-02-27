@@ -1,0 +1,2 @@
+scrapy crawl dmoz -o items.json -t json
+所有抓取的items将以JSON格式被保存在新生成的items.json 文件中

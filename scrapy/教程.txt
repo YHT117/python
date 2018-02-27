@@ -1,0 +1,5 @@
+http://python.jobbole.com/86405/
+教你分分钟学会用python爬虫框架Scrapy爬取心目中的女神
+
+https://www.cnblogs.com/yangykaifa/p/6817358.html
+递归爬取

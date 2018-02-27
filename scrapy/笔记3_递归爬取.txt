@@ -1,0 +1,75 @@
+DEBUG: Filtered offsite request to 'bbs.zol.com.cn': <GET http://bbs.zol.com.cn/dcbbs/d14_134253.html>
+这条日志记录有点奇怪 果断上网百度 ,找到答案 
+
+官方对这个的解释，是你要request的地址和allow_domain里面的冲突，从而被过滤掉。可以停用过滤功能。
+yield Request(url, callback=self.parse_item, dont_filter=True)
+
+
+import scrapy
+from scrapy.selector import HtmlXPathSelector
+# from scrapy.http import Request
+# from urllib.request import urlopen
+from scrapy.http import Request
+from hello.items import ZhaopinItem
+from scrapy.spiders import CrawlSpider, Rule
+from scrapy.linkextractors import LinkExtractor
+ii=0
+
+class ZhaopinSpider(scrapy.Spider):
+    name = "zhaopin"
+    allowed_domains = ["zhaopin.com"]	#允许访问的域名
+    start_urls = [
+        "http://sou.zhaopin.com/jobs/searchresult.ashx?jl=%E5%8C%97%E4%BA%AC&kw=%E7%88%AC%E8%99%AB&sm=0&p=1",
+        #"http://sou.zhaopin.com/jobs/searchresult.ashx?jl=%E5%8C%97%E4%BA%AC&kw=c%2B%2B&sm=0&p=1"
+    ]
+    rules = [
+        Rule(LinkExtractor(allow=(),
+                           restrict_xpaths=('//a[@href]')),
+             callback='parse_item',
+             follow=True)
+    ]
+    def parse_item(self, response):
+        print('888888888888888888888888888')
+        hxs = HtmlXPathSelector(response)
+        hxsObj = hxs.select('//a[@class="next-page"]')
+        if len(hxsObj)==1:
+            urls = hxsObj[0].select("@href").extract()
+            print(hxsObj[0].select("text()").extract())
+    #每爬完一个网页会回调parse方法
+    def parse(self, response):
+        hxs = HtmlXPathSelector(response)
+        hxsObj = hxs.select('//a[@class="next-page"]')
+        print('---------------------')
+        items = []
+        if len(hxsObj)==1:
+            urls = hxsObj[0].select("@href").extract()
+            print(hxsObj[0].select("text()").extract())
+            item = ZhaopinItem()
+            item['title']=hxsObj[0].select("text()").extract()
+            item['link']=hxsObj[0].select("@href").extract()
+            print('aaaaaaaaaaaaaaaaaaaaaaaaaaa')
+            print(item['link'])
+            print('bbbbbbbbbbbbbbbbbbbbbbbbbbbb')
+            items.append(item)
+            request = Request(urls[0], callback=self.parse,dont_filter=True)	#停用域名过滤，如果域名与访问名不冲突，可不用dont_filter=True
+            yield request
+            # for i in range(2):
+            #     headers = {
+            #         'User-Agent': 'Mozilla/5.0 (Windows; U; Windows NT 6.1; en-US; rv:1.9.1.6) Gecko/20091201 Firefox/3.5.6'}
+            #     url = "http://sou.zhaopin.com/jobs/searchresult.ashx?jl=%E5%8C%97%E4%BA%AC&kw=python&sm=0&p=1"
+            #     req_timeout = 5
+            #     print('iiiiiiiiiiiiiiiiiiiii')
+            #     req = Request(url=urls[0], headers=headers,callback=self.parse)
+            #     yield urlopen(req, None, req_timeout)
+            # for url in urls:
+            #     headers = {
+            #         'User-Agent': 'Mozilla/5.0 (Windows; U; Windows NT 6.1; en-US; rv:1.9.1.6) Gecko/20091201 Firefox/3.5.6'}
+            #       yield Request(url=url,headers=headers,callback=self.parse_item,dont_filter=False)
+            # hxsObj = hxs.select('//a[@style="font-weight: bold"]')
+            # print(hxsObj[0].select("@href").extract())
+            # print(hxsObj[0].select("text()").extract())
+            # print(len(hxsObj))      #取长度
+
+        print('##################################')
+        # yield items
+

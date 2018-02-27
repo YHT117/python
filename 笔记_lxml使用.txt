@@ -1,0 +1,8 @@
+#先获取整个节点，再取其中的属性和内容
+secItems = selector.xpath('//div[@class="sec-items"]/a')
+for secItem in secItems:
+	print(secItem.get('href'))
+	print(secItem.text)
+
+#查看整个对象中所有方法
+print(dir(secItem))

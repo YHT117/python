@@ -1,0 +1,63 @@
+import urllib.request  
+import http.cookiejar
+from lxml import etree
+from spiderImg import getImg
+
+head = {
+    'Connection': 'Keep-Alive',  
+    'Accept': 'text/html, application/xhtml+xml, */*',  
+    'Accept-Language': 'en-US,en;q=0.8,zh-Hans-CN;q=0.5,zh-Hans;q=0.3',  
+    'User-Agent': 'Mozilla/5.0 (Windows NT 6.3; WOW64; Trident/7.0; rv:11.0) like Gecko'
+}
+def makeMyOpener(head):  
+    cj = http.cookiejar.CookieJar()  
+    opener = urllib.request.build_opener(urllib.request.HTTPCookieProcessor(cj))  
+    header = []  
+    for key, value in head.items():  
+        elem = (key, value)
+        header.append(elem)  
+    opener.addheaders = header  
+    return opener
+
+oper = makeMyOpener(head)
+uop = oper.open('https://accounts.douban.com/login', timeout = 1000)
+data = uop.read()  
+html = data.decode()
+'''
+spath = './doubanLogin.html'
+f=open(spath,"w",encoding='utf-8')
+f.write(html)
+f.close()
+'''
+#print(html)
+#lxml提取
+#得到验证码
+selector = etree.HTML(html)
+links = selector.xpath('//img[@id="captcha_image"]/@src')
+for link in links:
+	print(link)
+	getImg(link,'captcs')
+
+#得到验证码id
+captcha_ids = selector.xpath('//input[@name="captcha-id"]/@value')
+captcha_id = 0
+for cid in captcha_ids:
+	captcha_id = cid
+	print(captcha_id)
+
+
+captcha=input("请输入验证码：")
+print(captcha)
+
+url = 'https://accounts.douban.com/login'
+datas = {'source':'index_nav','redir':'https://www.douban.com/','form_email':'15532108480','form_password':'228yuhailong','captcha-solution':captcha,'captcha-id':captcha_id}
+data_encoded = urllib.parse.urlencode(datas).encode(encoding='utf-8')
+response = oper.open(url, data_encoded)
+content = response.read()
+html = content.decode()
+#print(html)
+
+spath = './douban.html'
+f=open(spath,"w",encoding='utf-8')
+f.write(html)
+f.close()

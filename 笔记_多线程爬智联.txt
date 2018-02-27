@@ -1,0 +1,43 @@
+# -*- coding: utf-8 -*-
+import re
+import _thread
+from time import sleep, ctime
+from urllib.request import urlopen
+from urllib.request import Request
+from lxml import etree
+
+#添加模拟浏览器协议头
+headers = {'User-Agent':'Mozilla/5.0 (Windows; U; Windows NT 6.1; en-US; rv:1.9.1.6) Gecko/20091201 Firefox/3.5.6'}
+
+ii=0
+
+def spiderPage(page):
+	global ii
+	url = "http://sou.zhaopin.com/jobs/searchresult.ashx?jl=%%E5%%8C%%97%%E4%%BA%%AC&kw=lua&p=%i&isadv=0"%(page)
+	req_timeout = 5
+	req = Request(url=url,headers=headers)
+	f = urlopen(req,None,req_timeout)
+	s = f.read()
+	s = s.decode('utf-8')
+
+	ss = str(s)
+
+	#lxml提取
+	selector = etree.HTML(ss)
+	links = selector.xpath('//tr/td[@class="zwmc"]/div/a/@href|//tr/td[@class="zwmc"]/div/a/text()')
+	f=open("files/%i.html"%page,'w');
+	for link in links:
+		f.write("%s<br/>"%link)
+		print(link)
+	f.close()
+	ii+=1
+
+def main():
+	global ii
+	for page in range(1,11):
+		_thread.start_new_thread(spiderPage,(page,))
+	for kk in range(15):
+		if(ii>9):
+			break
+		sleep(2)
+main()

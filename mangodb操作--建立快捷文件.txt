@@ -1,0 +1,24 @@
+安装mangodb后 在c：program files找到mangodb，打开到最后一个文件夹bin，复制路径，如下所示
+
+	C:\Program Files\MongoDB\Server\3.4\bin
+
+在d:新建一个data文件夹，里面新建一个db
+
+管理员权限打开cmd 
+	cd \
+	cd C:\Program Files\MongoDB\Server\3.4\bin
+	切换到这个文件夹
+		输入mongod --dbpath d:\data\db
+	
+	回车 显示一长串
+
+再打开一个新的cmd
+	cd \
+	cd C:\Program Files\MongoDB\Server\3.4\bin
+	切换到这个文件夹,输入mongo.exe
+	然后开始安装
+
+	安装完成后，输入 show dbs
+	
+	显示 admin 0.000GB
+	     local 0.000GB

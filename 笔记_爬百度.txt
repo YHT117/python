@@ -1,0 +1,23 @@
+# -*- coding: utf-8 -*-
+import re
+from urllib.request import urlopen
+from urllib.request import Request
+from bs4 import BeautifulSoup
+from lxml import etree
+
+#添加模拟浏览器协议头
+headers = {'User-Agent':'Mozilla/5.0 (Windows; U; Windows NT 6.1; en-US; rv:1.9.1.6) Gecko/20091201 Firefox/3.5.6'}
+url = "https://www.baidu.com/s?ie=utf-8&f=8&rsv_bp=0&rsv_idx=1&tn=baidu&wd=java&rsv_pq=e2a469100000275e&rsv_t=8544DlzD%2F9efPS0lqtxbirlgzVuKOQieqbfUd3s6HCYerkQ38Aa%2B8lAnf2k&rqlang=cn&rsv_enter=0&rsv_sug3=5&rsv_sug1=3&rsv_sug7=100&inputT=2074&rsv_sug4=4070"
+req_timeout = 5
+req = Request(url=url,headers=headers)
+f = urlopen(req,None,req_timeout)
+s = f.read()
+s = s.decode('utf-8')
+
+ss = str(s)
+
+#print(ss)
+spath = './baidu.html'
+f=open(spath,"w",encoding='utf-8')
+f.write(ss)
+f.close()

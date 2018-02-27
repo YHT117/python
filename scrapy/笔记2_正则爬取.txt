@@ -1,0 +1,52 @@
+hxs = HtmlXPathSelector(response)
+#print(hxs.select('//a/@href'))
+hxsObj = hxs.select('//a[@style="font-weight: bold"]')
+print(hxsObj[0].select("@href").extract())
+print(hxsObj[0].select("text()").extract())
+print(len(hxsObj))      #取长度
+#后面用for循环
+
+方法2：
+sites = hxs.path('//ul/li')
+for site in sites:
+    title = site.path('a/text()').extract()
+    link = site.path('a/@href').extract()
+    desc = site.path('text()').extract()
+    print title, link, desc
+
+
+
+import scrapy
+from scrapy.selector import HtmlXPathSelector
+
+ii=0
+
+class ZhaopinSpider(scrapy.Spider):
+    name = "zhaopin"
+    allowed_domains = ["zhaopin.org"]
+    start_urls = [
+        "http://sou.zhaopin.com/jobs/searchresult.ashx?jl=%E5%8C%97%E4%BA%AC&kw=%E7%88%AC%E8%99%AB&sm=0&p=1",
+        "http://sou.zhaopin.com/jobs/searchresult.ashx?jl=%E5%8C%97%E4%BA%AC&kw=c%2B%2B&sm=0&p=1"
+    ]
+    #每爬完一个网页会回调parse方法
+    def parse(self, response):
+        hxs = HtmlXPathSelector(response)
+        #print(hxs.select('//a/@href'))
+        hxsObj = hxs.select('//a[@style="font-weight: bold"]')
+        print(hxsObj[0].extract())
+        print('##################################3')
+        # for p in hxsObj.select("@href"):
+        for p in hxsObj.select("text()"):
+            print(p.extract())
+        # print(dir(hxsObj.pop()))
+        # print(hxsObj.pop().text)
+        # for url in hxsObj:
+        #     print(url.get("href"))
+        # global ii
+        #filename = response.url.split("/")[-2]
+        print('-------------------------------')
+        #print(filename)
+        # ii += 1
+        # filename="%i.txt"%(ii)
+        # with open(filename, 'wb') as f:
+        #     f.write(response.body)

@@ -1,0 +1,46 @@
+driver.get_cookies（） 获得cookie信息
+add_cookie(cookie_dict)  向cookie添加会话信息
+delete_cookie(name)   删除特定(部分)的cookie
+delete_all_cookies()    删除所有cookie
+
+#-------------------------------------------
+#https://www.cnblogs.com/fnng/p/3269450.html
+
+#coding=utf-8
+
+from selenium import webdriver
+import time
+
+driver = webdriver.Chrome()
+driver.get("http://www.youdao.com")
+
+# 获得cookie信息
+cookie= driver.get_cookies()
+
+#将获得cookie的信息打印
+print cookie
+
+driver.quit()
+#-------------------------------------------
+
+你必须将Cookies的dict格式化如此：
+
+driver=webdriver.PhantomJS()
+
+driver.get('http://www.baidu.com')
+
+driver.delete_all_cookies()
+
+for item in cookie_dictionary:
+
+    driver.add_cookie(
+
+       {'domain':'.baidu.com', # 注意baidu.com前的英文句号！
+
+       'name':item['name'],
+
+       'value':item['value'],
+
+       'path':'/','expires':None})
+
+driver.get('http://www.baidu.com')

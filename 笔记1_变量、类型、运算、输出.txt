@@ -1,0 +1,118 @@
+1.变量、类型、运算、输出等
+# -*- coding: utf-8 -*-
+a=2
+b=3
+c=a+b
+print  u'结果是=%i'%c          #加u显示中文
+
+str=unicode(s,"utf-8")        #转s为中文
+print str
+
+#int型和string型不能直接连接
+#转换字符串连接和转换数字加减
+d="1111"
+e=a+int(d)
+print "c is %s,e is %i"%(c,e)
+
+f=10
+g=3
+h=10/3
+print u'h=%f'%h   #输出3.000000
+
+h=10.0/3
+print 'h=%f'%h	#输出3.333333
+
+2.注释
+# 单行注释
+'''多行注释
+
+2.字符串操作符
+%s    字符串 (采用str()的显示)
+%r    字符串 (采用repr()的显示)
+%c    单个字符
+%b    二进制整数
+%d    十进制整数
+%i    十进制整数
+%o    八进制整数
+%x    十六进制整数
+%e    指数 (基底写为e)
+%E    指数 (基底写为E)
+%f    浮点数
+%F    浮点数，与上相同
+%g    指数(e)或浮点数 (根据显示长度)
+%G    指数(E)或浮点数 (根据显示长度)
+%%    字符”%”
+
+3.python数据类型
+1、字符串
+2、布尔类型
+3、整数
+4、浮点数
+5、数字
+6、列表
+7、元组
+8、字典
+9、日期
+
+1、字符串
+a、使用单引号(')
+用单引号括起来表示字符串，例如：
+str='this is string';
+print str;
+
+b、使用双引号(")
+双引号中的字符串与单引号中的字符串用法完全相同，例如：
+str="this is string";
+print str;
+
+c、使用三引号(''')
+利用三引号，表示多行的字符串，可以在三引号中自由的使用单引号和双引号，例如：
+str='''this is string
+this is pythod string
+this is string'''
+print str;
+
+2、布尔类型
+bool=False;
+print bool;
+bool=True;
+print bool;
+
+3、整数
+int=20;
+print int;
+
+4、浮点数
+float=2.3;
+print float;
+
+5、数字
+包括整数、浮点数。
+5.1、删除数字对象引用，例如：
+a=1;
+b=2;
+c=3;
+del a;	#删除变量
+del b, c;
+#print a; #删除a变量后，再调用a变量会报错
+
+5.2、数字类型转换
+
+复制代码
+int(x [,base]) 将x转换为一个整数 
+float(x ) 将x转换到一个浮点数 
+complex(real [,imag]) 创建一个复数 
+str(x) 将对象x转换为字符串 
+repr(x) 将对象x转换为表达式字符串 
+eval(str) 用来计算在字符串中的有效Python表达式,并返回一个对象 
+tuple(s) 将序列s转换为一个元组 
+list(s) 将序列s转换为一个列表 
+chr(x) 将一个整数转换为一个字符 
+unichr(x) 将一个整数转换为Unicode字符 
+ord(x) 将一个字符转换为它的整数值 
+hex(x) 将一个整数转换为一个十六进制字符串 
+oct(x) 将一个整数转换为一个八进制字符串
+
+str="[1,2,3]"
+arr = eval(str)
+print arr

@@ -1,0 +1,68 @@
+
+#!coding=UTF-8
+from http.server import HTTPServer,BaseHTTPRequestHandler
+import io,shutil,urllib
+
+def httpSend(r_str,thisa):
+	enc="UTF-8"    
+	encoded = ''.join(r_str).encode(enc)
+	f = io.BytesIO()
+	f.write(encoded)
+	f.seek(0)
+	thisa.send_response(200)
+	thisa.send_header("Content-type", "text/html; charset=%s" % enc) 
+	thisa.send_header("Content-Length", str(len(encoded)))
+	thisa.end_headers()
+	shutil.copyfileobj(f,thisa.wfile)
+
+class MyHttpHandler(BaseHTTPRequestHandler):
+	def do_GET(self):
+		print(self.path)
+		httpSend('hello,我是get',self)
+
+	def do_POST(self):
+		print('post访问')
+		s=str(self.rfile.readline(),'UTF-8')#先解码     
+		print(urllib.parse.parse_qs(urllib.parse.unquote(s)))#解释参数
+		self.send_response(301)#URL跳转     
+		self.send_header("Location", "/?"+s)
+		self.end_headers()
+		httpSend('hello,我是post',self)
+
+httpd=HTTPServer(('',8080),MyHttpHandler)     
+print("Server started on 127.0.0.1,port 8080.....")     
+httpd.serve_forever()
+
+#--------------------------------------------------------
+#!coding=UTF-8    
+from http.server import HTTPServer,BaseHTTPRequestHandler     
+import io,shutil,urllib     
+    
+class MyHttpHandler(BaseHTTPRequestHandler):
+	def do_GET(self):     
+		print(self.path)
+		#向前端发送参数
+		r_str='你好'
+		enc="UTF-8"    
+		encoded = ''.join(r_str).encode(enc)
+		f = io.BytesIO()
+		f.write(encoded)
+		f.seek(0)
+		self.send_response(200)
+		self.send_header("Content-type", "text/html; charset=%s" % enc) 
+		self.send_header("Content-Length", str(len(encoded)))
+		self.end_headers()
+		shutil.copyfileobj(f,self.wfile)
+        
+	def do_POST(self):     
+		s=str(self.rfile.readline(),'UTF-8')#先解码     
+		print(urllib.parse.parse_qs(urllib.parse.unquote(s)))#解释参数
+		'''
+        self.send_response(301)#URL跳转     
+        self.send_header("Location", "/?"+s)     
+        self.end_headers()
+		'''
+    
+httpd=HTTPServer(('',8080),MyHttpHandler)     
+print("Server started on 127.0.0.1,port 8080.....")     
+httpd.serve_forever()

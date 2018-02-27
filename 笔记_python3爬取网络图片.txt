@@ -1,0 +1,24 @@
+# -*- coding: utf-8 -*-
+from urllib.request import Request
+from urllib.request import urlopen
+
+#添加模拟浏览器协议头
+headers = {'User-Agent':'Mozilla/5.0 (Windows; U; Windows NT 6.1; en-US; rv:1.9.1.6) Gecko/20091201 Firefox/3.5.6'}
+
+url = 'https://ss0.bdstatic.com/94oJfD_bAAcT8t7mm9GUKT-xh_/timg?image&quality=100&size=b4000_4000&sec=1510537362&di=3f1f93bb6bf35c7724e3b5c435528187&src=http://www.zhlzw.com/UploadFiles/Article_UploadFiles/201204/20120412123921838.jpg'
+
+def getImg(url,imgName):
+	try:
+		req_timeout = 5
+		req = Request(url=url,headers=headers)
+		f = urlopen(req,None,req_timeout)
+		pic = f.read()
+		#pic= Request.get(url, timeout=10)
+		imgPath = './imgs/%s.jpg'%(imgName)
+		fp=open(imgPath,'wb')
+		fp.write(pic)
+		fp.close()
+	except Request.exceptions.ConnectionError:
+		print(u'链接失败')
+
+#getImg(url,'mm')
